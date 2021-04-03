@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
-use example\Mutation\ExampleMutation;
-use example\Query\ExampleQuery;
-use example\Type\ExampleRelationType;
 use example\Type\ExampleType;
+use example\Query\ExampleQuery;
+use App\GraphQL\Queries\TagQuery;
+use App\GraphQL\Queries\BookQuery;
+use App\GraphQL\Queries\UserQuery;
+use example\Mutation\ExampleMutation;
+use example\Type\ExampleRelationType;
+use Rebing\GraphQL\GraphQLController;
 
 return [
 
@@ -102,6 +106,10 @@ return [
         'default' => [
             'query' => [
                 // 'example_query' => ExampleQuery::class,
+                'user_query'     => UserQuery::class,
+                'book_query'     => BookQuery::class,
+                'tag_query'      => TagQuery::class,
+                // 'category_query' => CategoryQuery::class,
             ],
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
@@ -124,8 +132,11 @@ return [
         // 'example'           => ExampleType::class,
         // 'relation_example'  => ExampleRelationType::class,
         // \Rebing\GraphQL\Support\UploadType::class,
-        'Book' => App\GraphQL\Types\BookType::class,
-        'User' => App\GraphQL\Types\UserType::class,
+        'BookType' => App\GraphQL\Types\BookType::class,
+        'UserType' => App\GraphQL\Types\UserType::class,
+        'TagType' => App\GraphQL\Types\TagType::class,
+        'CategoryType' => App\GraphQL\Types\CategoryType::class,
+        'AuthorType' => App\GraphQL\Types\AuthorType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request
