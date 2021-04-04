@@ -21,18 +21,27 @@ class TagsQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('TagType'));
+        return GraphQL::paginate('TagType');
     }
 
     public function args(): array
     {
         return [
-
+            'page' => [
+                'type' => Type::int(),
+            ],
+            'pagination' => [
+                'type' => Type::int(),
+            ],
         ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return Tag::all();
+        $page = $args['page'] ?? 1;
+        $pagination = $args['pagination'] ?? 12;
+
+        $tags = Tag::paginate($pagination, ["*"], 'page', $page);
+        return $tags;
     }
 }

@@ -21,17 +21,27 @@ class BooksQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('BookType'));
+        return GraphQL::paginate('BookType');
     }
 
     public function args(): array
     {
-        return [];
+        return [
+            'page' => [
+                'type' => Type::int(),
+            ],
+            'pagination' => [
+                'type' => Type::int(),
+            ],
+        ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        $books = Book::all();
+        $page = $args['page'] ?? 1;
+        $pagination = $args['pagination'] ?? 12;
+
+        $books = Book::paginate($pagination, ["*"], 'page', $page);
         return $books;
     }
 }

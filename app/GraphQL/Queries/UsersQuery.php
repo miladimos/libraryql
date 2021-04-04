@@ -21,16 +21,27 @@ class UsersQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('UserType'));
+        return GraphQL::paginate('UserType');
     }
 
     public function args(): array
     {
-        return [];
+        return [
+            'page' => [
+                'type' => Type::int(),
+            ],
+            'pagination' => [
+                'type' => Type::int(),
+            ],
+        ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        return User::all();
+        $page = $args['page'] ?? 1;
+        $pagination = $args['pagination'] ?? 12;
+
+        $users = User::paginate($pagination, ["*"], 'page', $page);
+        return $users;
     }
 }
