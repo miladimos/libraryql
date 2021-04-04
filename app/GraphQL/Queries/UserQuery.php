@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\GraphQL\Queries;
 
 use Closure;
-use GraphQL\Type\Definition\ResolveInfo;
+use App\Models\User;
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
+use GraphQL\Type\Definition\ResolveInfo;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class UserQuery extends Query
 {
@@ -19,25 +20,20 @@ class UserQuery extends Query
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('UserType'));
+        return GraphQL::type('UserType');
     }
 
     public function args(): array
     {
         return [
-
+            'id' => [
+                'type' => Type::nonNull(Type::int())
+            ],
         ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        /** @var SelectFields $fields */
-        $fields = $getSelectFields();
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
-
-        return [
-            'The user works',
-        ];
+        return User::findOrFail($args['id']);
     }
 }

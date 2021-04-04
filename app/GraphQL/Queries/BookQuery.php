@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Queries;
 
+use App\Models\Book;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -26,19 +27,16 @@ class BookQuery extends Query
     public function args(): array
     {
         return [
-
+            'id' => [
+                'type' => Type::nonNull(GraphQL::type('BookType'))
+            ]
         ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
-        /** @var SelectFields $fields */
-        $fields = $getSelectFields();
-        $select = $fields->getSelect();
-        $with = $fields->getRelations();
+        $book = Book::find($args['id']);
 
-        return [
-            'The book works',
-        ];
+        return $book;
     }
 }

@@ -6,7 +6,10 @@ use example\Type\ExampleType;
 use example\Query\ExampleQuery;
 use App\GraphQL\Queries\TagQuery;
 use App\GraphQL\Queries\BookQuery;
+use App\GraphQL\Queries\BooksQuery;
+use App\GraphQL\Queries\TagsQuery;
 use App\GraphQL\Queries\UserQuery;
+use App\GraphQL\Queries\UsersQuery;
 use example\Mutation\ExampleMutation;
 use example\Type\ExampleRelationType;
 use Rebing\GraphQL\GraphQLController;
@@ -106,10 +109,14 @@ return [
         'default' => [
             'query' => [
                 // 'example_query' => ExampleQuery::class,
-                'user_query'     => UserQuery::class,
-                'book_query'     => BookQuery::class,
-                'tag_query'      => TagQuery::class,
-                // 'category_query' => CategoryQuery::class,
+
+                'users'     => UsersQuery::class,
+                'books'     => BooksQuery::class,
+                'tags'      => TagsQuery::class,
+
+                'user'     => UserQuery::class,
+                'book'     => BookQuery::class,
+                'tag'      => TagQuery::class,
             ],
             'mutation' => [
                 // 'example_mutation'  => ExampleMutation::class,
